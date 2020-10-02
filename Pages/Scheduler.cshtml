@@ -12,8 +12,19 @@
 
                 <select id="CategoryId" class="select-group">
                     <option value="">--Select--</option>
-
+                    @{ using (var db = new TestApp.SessionEntities())
+                        {
+                            var query = from b in db.Categories
+                                        where b.IsActive == true
+                                        select b;
+                            foreach (var item in query)
+                            {
+                                <option value="@item.CategoryId">@item.CategoryName</option>
+                            }
+                        }
+                    }
                 </select>
+
             </div>
         </div>
         <div class="item">
@@ -45,7 +56,16 @@
                 </label>
                 <select id="Location" class="select-group">
                     <option value="">--Select--</option>
-
+                    @{ using (var db = new TestApp.SessionEntities())
+                        {
+                            var query = from b in db.Locations
+                                        select b;
+                            foreach (var item in query)
+                            {
+                                <option value="@item.LocationId">@item.LocationName</option>
+                            }
+                        }
+                    }
                 </select>
             </div>
         </div>
@@ -90,7 +110,25 @@
                 <label>
                     Select Trainer:
                 </label>
-                <select id="Location" class="select-group">
+                <select id="Department" class="select-group">
+                    <option value="">--Select--</option>
+                    @{ using (var db = new TestApp.SessionEntities())
+                        {
+                            var query = from b in db.Departments
+                                        where b.IsActive == true
+                                        select b;
+                            foreach (var item in query)
+                            {
+                                <option value="@item.DepartmentId">@item.DepartmentName</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <select id="SubDepartment" class="select-group select-dropdowm">
                     <option value="">--Select--</option>
 
                 </select>
@@ -98,15 +136,7 @@
         </div>
         <div class="item">
             <div class="group">
-                <select id="Location" class="select-group select-dropdowm">
-                    <option value="">--Select--</option>
-
-                </select>
-            </div>
-        </div>
-        <div class="item">
-            <div class="group">
-                <select id="Location" class="select-group select-dropdowm">
+                <select id="Trainer" class="select-group select-dropdowm">
                     <option value="">--Select--</option>
 
                 </select>
@@ -179,15 +209,11 @@
         background-image: none;
         border: 1px solid #ccc;
         border-radius: 4px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
-        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+       
     }
 </style>
-<link href="~/Content/Datepicker.css" rel="stylesheet" />
-<link href="~/Content/themes/bootstrap.css" rel="stylesheet" />
+<link href="~/Css/bootstrap.css" rel="stylesheet" />
+<link href="~/Css/Datepicker.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
@@ -195,21 +221,31 @@
         $(".datepicker").datepicker();
     });
     $(document).ready(function () {
+        $('#Sub_CategoryId').attr('disabled', true)
+        $('#Course').attr('disabled', true)
+        $('#SubDepartment').attr('disabled', true)
+        $("#CategoryId").change(function () {
+            var str = "";
+            $("#CategoryId option:selected").each(function () {
+                str += $(this).text() + " ";
+            });
 
+        });
     });
 
 </script>
-@using TestApp
-@{ 
+@*@using TestApp
+    @{
 
-    using(var db= new SessionEntities())
-    {
-        Console.WriteLine();
-    }
+        using (var db = new SessionEntities())
+        {
+            Console.WriteLine();
+        }
 
-    using (var db = new SessionEntities())
-    {
-        List<Employee> employeeList = db.Employees.ToList<Employee>();
-        return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
-    }
-}
+        using (var db = new SessionEntities())
+        {
+            List<Employee> employeeList = db.Employees.ToList<Employee>();
+            return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
+        }
+    }*@
+

@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="SessionModel.Department" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SessionModel.SubCategory" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SessionModel.SubDepartment" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="SessionModel.TrainerDetail" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SessionModel.TrainerDetail" Width="1.5" PointX="5.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SessionModel.TrainingSession" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="SessionModel.FK_SubCategory_ToTable" ManuallyRouted="false" />
         <AssociationConnector Association="SessionModel.FK_Table_ToTable" ManuallyRouted="false" />
@@ -21,6 +21,7 @@
         <AssociationConnector Association="SessionModel.FK_TrainerDetails_ToTable" ManuallyRouted="false" />
         <AssociationConnector Association="SessionModel.FK_TrainingSession_ToTable_1" ManuallyRouted="false" />
         <AssociationConnector Association="SessionModel.FK_TrainerDetails_ToTable_1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SessionModel.Location" Width="2.375" PointX="9.25" PointY="2.875" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

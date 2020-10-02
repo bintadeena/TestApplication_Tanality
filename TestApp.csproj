@@ -98,6 +98,7 @@
       <DependentUpon>Session.mdf</DependentUpon>
     </Content>
     <Content Include="Css\bootstrap.css" />
+    <Content Include="Css\Datepicker.css" />
     <Content Include="SessionModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SessionModel.Context.cs</LastGenOutput>
@@ -118,6 +119,9 @@
       <DependentUpon>SessionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Department.cs">
+      <DependentUpon>SessionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs">
       <DependentUpon>SessionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

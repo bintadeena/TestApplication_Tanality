@@ -25,12 +25,13 @@ namespace TestApp
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<SubDepartment> SubDepartments { get; set; }
         public virtual DbSet<TrainerDetail> TrainerDetails { get; set; }
         public virtual DbSet<TrainingSession> TrainingSessions { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
     }
 }

@@ -1,0 +1,231 @@
+﻿@{
+    Layout = "~/Pages/_Layout2.cshtml";
+}
+<h3>Schedule Training Seesion</h3>
+<div class="row">
+    <div class="item">
+        <div class="group">
+            <label> Category:</label>
+
+            <select id="CategoryId" class="select-group">
+                <option value="">--Select--</option>
+                @{ using (var db = new TestApp.SessionEntities())
+                    {
+                        var query = from b in db.Categories
+                                    where b.IsActive == true
+                                    select b;
+                        foreach (var item in query)
+                        {
+                            <option value="@item.CategoryId">@item.CategoryName</option>
+                        }
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                Sub Category:
+            </label>
+            <select id="Sub_CategoryId" class="select-group">
+                <option value="">--Select--</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                Course:
+            </label>
+            <select id="Course" class="select-group">
+                <option value="">--Select--</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                Location:
+            </label>
+            <select id="Location" class="select-group">
+                <option value="">--Select--</option>
+                @{ using (var db = new TestApp.SessionEntities())
+                    {
+                        var query = from b in db.Locations
+                                    select b;
+                        foreach (var item in query)
+                        {
+                            <option value="@item.LocationId">@item.LocationName</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="item">
+        <div class="group">
+            <label>
+                Start Date:
+            </label>
+            <input id="dtStartDate" class="select-group datepicker" type="text" />
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                Start Time:
+            </label>
+            <input id="dtStartTime" class="select-group text" type="time" min="09:00" max="18:00" required />
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                End Time:
+            </label>
+            <input id="dtEndTime" class="select-group" type="time" required />
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <label>
+                End Date:
+            </label>
+            <input id="dtEndDate" class="select-group datepicker" type="text" />
+        </div>
+    </div>
+</div>
+<div class="row clear">
+    <div class="item">
+        <div class="group">
+            <label>
+                Select Trainer:
+            </label>
+            <select id="Department" class="select-group">
+                <option value="">--Select--</option>
+                @{ using (var db = new TestApp.SessionEntities())
+                    {
+                        var query = from b in db.Departments
+                                    where b.IsActive == true
+                                    select b;
+                        foreach (var item in query)
+                        {
+                            <option value="@item.DepartmentId">@item.DepartmentName</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <select id="SubDepartment" class="select-group select-dropdowm">
+                <option value="">--Select--</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="item">
+        <div class="group">
+            <select id="Trainer" class="select-group select-dropdowm">
+                <option value="">--Select--</option>
+
+            </select>
+        </div>
+    </div>
+</div>
+<div class="clear">
+    <input id="buttonSubmit" type="button" value="Submit" style="float:left" />
+    <input id="buttonReset" type="button" value="Reset" style="float:right; margin-right:50px;" />
+</div>
+<style type="text/css">
+    .clear {
+        clear: both;
+    }
+
+    .select-dropdowm {
+        margin-top: 28px;
+    }
+
+    .text {
+        padding: 0 0 0 12px;
+        font-size: 14px;
+    }
+
+    .row {
+        width: 100%;
+        margin-right: -15px;
+        margin-left: -15px;
+        box-sizing: border-box;
+    }
+
+    .item {
+        float: left;
+        width: 25%;
+    }
+
+    .group {
+        margin-bottom: 15px;
+        margin-left: 22px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        margin-left: 3px;
+    }
+
+    body {
+        color: #666;
+        background-color: #fff;
+        font-family: 'Open Sans',Arial,sans-serif;
+        font-size: 14px;
+        line-height: 23px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .select-group {
+        display: block;
+        width: 82%;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+<link href="~/Css/bootstrap.css" rel="stylesheet" />
+<link href="~/Css/Datepicker.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+    $(document).ready(function () {
+        $('#Sub_CategoryId').attr('disabled', true)
+        $('#Course').attr('disabled', true)
+        $('#SubDepartment').attr('disabled', true)
+        $("#CategoryId").change(function () {
+            var str = "";
+            $("#CategoryId option:selected").each(function () {
+                str += $(this).text() + " ";
+            });
+
+        });
+    });
+
+</script>
+

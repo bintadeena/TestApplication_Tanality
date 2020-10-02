@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SessionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SubCategoryId" Type="int" Nullable="false" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="SubCategoryName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="SubDepartment">
+          <Key>
+            <PropertyRef Name="SubDepartmentId" />
+          </Key>
+          <Property Name="SubDepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="SubDepartmentName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="TrainerDetails">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+          </Key>
+          <Property Name="TrainerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="SubDepartmentId" Type="int" />
+          <Property Name="TrainerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="TrainingSession">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="CourseId" Type="int" />
+          <Property Name="Location" Type="int" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="SubDepartmentId" Type="int" />
+          <Property Name="TrainerId" Type="int" />
+        </EntityType>
+        <Association Name="FK_SubCategory_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubDepartment_ToTable">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="SubDepartment" Type="Self.SubDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="SubDepartment">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainerDetails_ToTable">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainerDetails_ToTable_1">
+          <End Role="SubDepartment" Type="Self.SubDepartment" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubDepartment">
+              <PropertyRef Name="SubDepartmentId" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="SubDepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable_1">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable_2">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SessionModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubDepartment" EntityType="Self.SubDepartment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainerDetails" EntityType="Self.TrainerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainingSession" EntityType="Self.TrainingSession" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SubCategory_ToTable" Association="Self.FK_SubCategory_ToTable">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubDepartment_ToTable" Association="Self.FK_SubDepartment_ToTable">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="SubDepartment" EntitySet="SubDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Course" EntitySet="Course" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainerDetails_ToTable" Association="Self.FK_TrainerDetails_ToTable">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainerDetails_ToTable_1" Association="Self.FK_TrainerDetails_ToTable_1">
+            <End Role="SubDepartment" EntitySet="SubDepartment" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable" Association="Self.FK_TrainingSession_ToTable">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="TrainingSession" EntitySet="TrainingSession" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable_1" Association="Self.FK_TrainingSession_ToTable_1">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="TrainingSession" EntitySet="TrainingSession" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable_2" Association="Self.FK_TrainingSession_ToTable_2">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="TrainingSession" EntitySet="TrainingSession" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SessionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="SubCategories" Relationship="Self.FK_SubCategory_ToTable" FromRole="Category" ToRole="SubCategory" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Table_ToTable" FromRole="Category" ToRole="Course" />
+          <NavigationProperty Name="TrainingSessions" Relationship="Self.FK_TrainingSession_ToTable" FromRole="Category" ToRole="TrainingSession" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Table_ToTable" FromRole="Course" ToRole="Category" />
+          <NavigationProperty Name="SubCategory" Relationship="Self.FK_Table_ToTable_1" FromRole="Course" ToRole="SubCategory" />
+          <NavigationProperty Name="TrainingSessions" Relationship="Self.FK_TrainingSession_ToTable_2" FromRole="Course" ToRole="TrainingSession" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="SubDepartments" Relationship="Self.FK_SubDepartment_ToTable" FromRole="Department" ToRole="SubDepartment" />
+          <NavigationProperty Name="TrainerDetails" Relationship="Self.FK_TrainerDetails_ToTable" FromRole="Department" ToRole="TrainerDetails" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="SubCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_SubCategory_ToTable" FromRole="SubCategory" ToRole="Category" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Table_ToTable_1" FromRole="SubCategory" ToRole="Course" />
+          <NavigationProperty Name="TrainingSessions" Relationship="Self.FK_TrainingSession_ToTable_1" FromRole="SubCategory" ToRole="TrainingSession" />
+        </EntityType>
+        <EntityType Name="SubDepartment">
+          <Key>
+            <PropertyRef Name="SubDepartmentId" />
+          </Key>
+          <Property Name="SubDepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="SubDepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_SubDepartment_ToTable" FromRole="SubDepartment" ToRole="Department" />
+          <NavigationProperty Name="TrainerDetails" Relationship="Self.FK_TrainerDetails_ToTable_1" FromRole="SubDepartment" ToRole="TrainerDetails" />
+        </EntityType>
+        <EntityType Name="TrainerDetail">
+          <Key>
+            <PropertyRef Name="TrainerId" />
+          </Key>
+          <Property Name="TrainerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="SubDepartmentId" Type="Int32" />
+          <Property Name="TrainerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_TrainerDetails_ToTable" FromRole="TrainerDetails" ToRole="Department" />
+          <NavigationProperty Name="SubDepartment" Relationship="Self.FK_TrainerDetails_ToTable_1" FromRole="TrainerDetails" ToRole="SubDepartment" />
+        </EntityType>
+        <EntityType Name="TrainingSession">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="CourseId" Type="Int32" />
+          <Property Name="Location" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="SubDepartmentId" Type="Int32" />
+          <Property Name="TrainerId" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_TrainingSession_ToTable" FromRole="TrainingSession" ToRole="Category" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_TrainingSession_ToTable_2" FromRole="TrainingSession" ToRole="Course" />
+          <NavigationProperty Name="SubCategory" Relationship="Self.FK_TrainingSession_ToTable_1" FromRole="TrainingSession" ToRole="SubCategory" />
+        </EntityType>
+        <Association Name="FK_SubCategory_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="1" />
+          <End Role="Course" Type="Self.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="Course">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable_2">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubDepartment_ToTable">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="SubDepartment" Type="Self.SubDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="SubDepartment">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainerDetails_ToTable">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainingSession_ToTable_1">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1" />
+          <End Role="TrainingSession" Type="Self.TrainingSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="TrainingSession">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrainerDetails_ToTable_1">
+          <End Role="SubDepartment" Type="Self.SubDepartment" Multiplicity="0..1" />
+          <End Role="TrainerDetails" Type="Self.TrainerDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubDepartment">
+              <PropertyRef Name="SubDepartmentId" />
+            </Principal>
+            <Dependent Role="TrainerDetails">
+              <PropertyRef Name="SubDepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SessionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
+          <EntitySet Name="SubDepartments" EntityType="Self.SubDepartment" />
+          <EntitySet Name="TrainerDetails" EntityType="Self.TrainerDetail" />
+          <EntitySet Name="TrainingSessions" EntityType="Self.TrainingSession" />
+          <AssociationSet Name="FK_SubCategory_ToTable" Association="Self.FK_SubCategory_ToTable">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable" Association="Self.FK_TrainingSession_ToTable">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="TrainingSession" EntitySet="TrainingSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="SubCategory" EntitySet="SubCategories" />
+            <End Role="Course" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable_2" Association="Self.FK_TrainingSession_ToTable_2">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="TrainingSession" EntitySet="TrainingSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubDepartment_ToTable" Association="Self.FK_SubDepartment_ToTable">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="SubDepartment" EntitySet="SubDepartments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainerDetails_ToTable" Association="Self.FK_TrainerDetails_ToTable">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainingSession_ToTable_1" Association="Self.FK_TrainingSession_ToTable_1">
+            <End Role="SubCategory" EntitySet="SubCategories" />
+            <End Role="TrainingSession" EntitySet="TrainingSessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrainerDetails_ToTable_1" Association="Self.FK_TrainerDetails_ToTable_1">
+            <End Role="SubDepartment" EntitySet="SubDepartments" />
+            <End Role="TrainerDetails" EntitySet="TrainerDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SessionModelStoreContainer" CdmEntityContainer="SessionEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="SessionModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="SessionModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="SessionModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="SessionModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategory">
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="SubCategoryName" ColumnName="SubCategoryName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubDepartments">
+            <EntityTypeMapping TypeName="SessionModel.SubDepartment">
+              <MappingFragment StoreEntitySet="SubDepartment">
+                <ScalarProperty Name="SubDepartmentId" ColumnName="SubDepartmentId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="SubDepartmentName" ColumnName="SubDepartmentName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainerDetails">
+            <EntityTypeMapping TypeName="SessionModel.TrainerDetail">
+              <MappingFragment StoreEntitySet="TrainerDetails">
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="SubDepartmentId" ColumnName="SubDepartmentId" />
+                <ScalarProperty Name="TrainerName" ColumnName="TrainerName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainingSessions">
+            <EntityTypeMapping TypeName="SessionModel.TrainingSession">
+              <MappingFragment StoreEntitySet="TrainingSession">
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="SubDepartmentId" ColumnName="SubDepartmentId" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

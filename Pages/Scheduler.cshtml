@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h3>Schedule Training Seesion</h3>
+    <div class="row">
+        <div class="item">
+            <div class="group">
+                <label> Category:</label>
+
+                <select id="CategoryId" class="select-group">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    Sub Category:
+                </label>
+                <select id="Sub_CategoryId" class="select-group">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    Course:
+                </label>
+                <select id="Course" class="select-group">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    Location:
+                </label>
+                <select id="Location" class="select-group">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="item">
+            <div class="group">
+                <label>
+                    Start Date:
+                </label>
+                <input id="dtStartDate" class="select-group datepicker" type="text" />
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    Start Time:
+                </label>
+                <input id="dtStartTime" class="select-group text" type="time" min="09:00" max="18:00" required />
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    End Time:
+                </label>
+                <input id="dtEndTime" class="select-group" type="time" required />
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <label>
+                    End Date:
+                </label>
+                <input id="dtEndDate" class="select-group datepicker" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="row clear">
+        <div class="item">
+            <div class="group">
+                <label>
+                    Select Trainer:
+                </label>
+                <select id="Location" class="select-group">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <select id="Location" class="select-group select-dropdowm">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="group">
+                <select id="Location" class="select-group select-dropdowm">
+                    <option value="">--Select--</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+        <input id="buttonSubmit" type="button" value="Submit" style="float:left" />
+        <input id="buttonReset" type="button" value="Reset" style="float:right; margin-right:50px;" />
+    </div>
+</body>
+</html>
+<style type="text/css">
+    .clear {
+        clear: both;
+    }
+
+    .select-dropdowm {
+        margin-top: 28px;
+    }
+
+    .text {
+        padding: 0 0 0 12px;
+        font-size: 14px;
+    }
+
+    .row {
+        width: 100%;
+        margin-right: -15px;
+        margin-left: -15px;
+        box-sizing: border-box;
+    }
+
+    .item {
+        float: left;
+        width: 25%;
+    }
+
+    .group {
+        margin-bottom: 15px;
+        margin-left: 22px;
+    }
+
+    label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        margin-left: 3px;
+    }
+
+    body {
+        color: #666;
+        background-color: #fff;
+        font-family: 'Open Sans',Arial,sans-serif;
+        font-size: 14px;
+        line-height: 23px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .select-group {
+        display: block;
+        width: 82%;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+</style>
+<link href="~/Content/Datepicker.css" rel="stylesheet" />
+<link href="~/Content/themes/bootstrap.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker();
+    });
+    $(document).ready(function () {
+
+    });
+
+</script>
+@using TestApp
+@{ 
+
+    using(var db= new SessionEntities())
+    {
+        Console.WriteLine();
+    }
+
+    using (var db = new SessionEntities())
+    {
+        List<Employee> employeeList = db.Employees.ToList<Employee>();
+        return Json(new { data = employeeList }, JsonRequestBehavior.AllowGet);
+    }
+}
